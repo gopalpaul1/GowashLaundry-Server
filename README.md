@@ -9,6 +9,7 @@ I created a server where I created three components called addserice, order and 
 GoWash Git Repository link: [(https://github.com/Porgramming-Hero-web-course/complete-website-server-gopalpaul1)](https://github.com/Porgramming-Hero-web-course/complete-website-server-gopalpaul1)
 
 
-#GoWash Laundry Server Side link:
+# GoWash Laundry Server Side link: 
+[(https://blooming-sea-02282.herokuapp.com/)]
 
 
