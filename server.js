@@ -4,6 +4,7 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const MongoClient = require('mongodb').MongoClient;
 const ObjectId = require('mongodb').ObjectId;
+const { query } = require('express');
 require('dotenv').config()
 
 const port = 5055
@@ -25,6 +26,7 @@ client.connect(err => {
     const servicesCollection = client.db("gowashlaundry").collection("services");
     const reviewCollection = client.db("gowashlaundry").collection("review");
     const ordersCollection = client.db("gowashlaundry").collection("orders");
+    const AdminCollection = client.db("gowashlaundry").collection("Admin");
 
     app.post('/addService', (req, res) => {
         const service = req.body
@@ -76,8 +78,8 @@ client.connect(err => {
 
 
     app.post('/addOrder', (req, res) => {
-        const order = req.body
-        ordersCollection.insertOne(order)
+        const orders = req.body
+        ordersCollection.insertOne(orders)
             .then(result => {
                 res.send(result.insertedCount > 0)
             })
@@ -92,6 +94,21 @@ client.connect(err => {
     })
 
 
+
+    app.post('/addAdmin', (req, res) => {
+        const admin = req.body.email
+        AdminCollection.insertOne(admin)
+            .then(result => {
+                res.send(result.insertedCount > 0)
+            })
+    })
+
+    app.get('/admins', (req, res) => {
+        AdminCollection.find()
+        .toArray((err, items) => {
+            res.send(items)
+        })
+    })
 
 
 });
