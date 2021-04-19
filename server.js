@@ -89,7 +89,7 @@ client.connect(err => {
             }
             ordersCollection.find(filter)
             .toArray((err, items) => {
-                res.send(items)
+                res.send(items.length > 0)
             })
 
         })
@@ -108,7 +108,6 @@ client.connect(err => {
         const file = req.files.file;
         const name = req.body.name
         const email = req.body.email
-        console.log(name, email, file)
         file.mv(`${__dirname}/admins/${file.name}`, err => {
             if(err){
                 console.log(err)
