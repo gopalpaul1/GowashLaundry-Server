@@ -97,19 +97,17 @@ client.connect(err => {
     })
 
     app.get('/orders', (req, res) => {
-        if(email){
-            ordersCollection.find({email: req.query.email})
+        ordersCollection.find({email: req.query.email})
             .toArray((err, items) => {
                 res.send(items)
             })
-        }
-        else{
-            ordersCollection.find({})
-            .toArray((err, items) => {
-                res.send(items)
-            })
-        }
+    })
 
+    app.get('/orders', (req, res) => {
+        ordersCollection.find({})
+            .toArray((err, items) => {
+                res.send(items)
+            })
     })
 
 
