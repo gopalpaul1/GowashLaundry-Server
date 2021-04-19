@@ -80,7 +80,7 @@ client.connect(err => {
         const email = req.body.email
         AdminCollection.find({email: email})
         .toArray((err, admin) =>{
-            const filter = {orders: orders}
+            const filter = {}
             if(admin.length === 0){
                 filter.email = email;
             }
