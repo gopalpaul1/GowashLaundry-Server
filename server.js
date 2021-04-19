@@ -80,20 +80,10 @@ client.connect(err => {
 
     app.post('/addOrder', (req, res) => {
         const orders = req.body
-        const email = req.body.email
-        adminCollection.find({email: email})
-        .toArray((err, items) => {
-            const filter = {}
-            if(items.length ){
-                filter.email = email
-            }
-            ordersCollection.insertOne(orders, filter)
-            .then(result => {
-                res.send(result.insertedCount > 0)
-            })
-
-        })
-
+        ordersCollection.insertOne(orders)
+        .then(result => {
+            res.send(result.insertedCount > 0)
+         })
     })
 
     app.get('/orders', (req, res) => {
