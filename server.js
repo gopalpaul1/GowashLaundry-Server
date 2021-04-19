@@ -83,13 +83,13 @@ client.connect(err => {
         const email = req.body.email
         adminCollection.find({email: email})
         .toArray((err, items) => {
-            const filter = {}
+            const filter = {orders: orders}
             if(items.length ){
                 filter.email = email
             }
-            ordersCollection.insertOne(orders, filter)
-            .then(result => {
-                res.send(result.insertedCount > 0)
+            ordersCollection.find(filter)
+            .toArray((err, items) => {
+                res.send(items.length > 0)
             })
 
         })
@@ -109,7 +109,7 @@ client.connect(err => {
         const name = req.body.name
         const email = req.body.email
         console.log(name, email, file)
-        file.mv(`${__dircname}/admins/${file.name}`, err => {
+        file.mv(`${__dirname}/admins/${file.name}`, err => {
             if(err){
                 console.log(err)
                 return res.status(500).send({msg: 'failed'})
@@ -129,7 +129,7 @@ client.connect(err => {
         })
     })
 
-    app.post('/isDoctor', (req, res) => {
+    app.post('/isAdmin', (req, res) => {
         const email = req.body.email;
         adminCollection.find({ email: email })
             .toArray((err, admin) => {
