@@ -75,7 +75,6 @@ client.connect(err => {
     })
 
 
-
     app.post('/addOrder', (req, res) => {
         const orders = req.body
         const email = req.body.email
@@ -85,12 +84,11 @@ client.connect(err => {
             if(admin.length === 0){
                 filter.email = email;
             }
-        })
-        ordersCollection.insertOne(filter)
+            ordersCollection.insertOne(filter)
             .then(result => {
                 res.send(result.insertedCount > 0)
             })
-
+        })
     })
 
     app.get('/orders', (req, res) => {
