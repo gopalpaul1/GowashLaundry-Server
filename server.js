@@ -92,7 +92,7 @@ client.connect(err => {
     })
 
     app.get('/orders', (req, res) => {
-        ordersCollection.find()
+        ordersCollection.find({})
             .toArray((err, items) => {
                 res.send(items)
             })
