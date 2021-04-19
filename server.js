@@ -4,7 +4,6 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const MongoClient = require('mongodb').MongoClient;
 const ObjectId = require('mongodb').ObjectId;
-const { query } = require('express');
 require('dotenv').config()
 
 const port = 5055
@@ -79,7 +78,15 @@ client.connect(err => {
 
     app.post('/addOrder', (req, res) => {
         const orders = req.body
-        ordersCollection.insertOne(orders)
+        const email = req.body.email
+        AdminCollection.find({email: email})
+        .toArray((err, admin) =>{
+            const filter = {orders: orders}
+            if(admin.length === 0){
+                filter.email = email;
+            }
+        })
+        ordersCollection.insertOne(filter)
             .then(result => {
                 res.send(result.insertedCount > 0)
             })
@@ -94,9 +101,8 @@ client.connect(err => {
     })
 
 
-
     app.post('/addAdmin', (req, res) => {
-        const admin = req.body.email
+        const admin = req.body
         AdminCollection.insertOne(admin)
             .then(result => {
                 res.send(result.insertedCount > 0)
