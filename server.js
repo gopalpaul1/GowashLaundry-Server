@@ -83,11 +83,11 @@ client.connect(err => {
         const email = req.body.email
         adminCollection.find({email: email})
         .toArray((err, items) => {
-            const filter = {orders: orders}
+            const filter = {}
             if(items.length ){
                 filter.email = email
             }
-            ordersCollection.insertOne(filter)
+            ordersCollection.insertOne(orders, filter)
             .then(result => {
                 res.send(result.insertedCount > 0)
             })
