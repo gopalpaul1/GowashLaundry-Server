@@ -80,13 +80,13 @@ client.connect(err => {
         const email = req.body.email
         AdminCollection.find({email: email})
         .toArray((err, admin) =>{
-            const filter = {orders: orders.orders}
+            const filter = {orders: orders}
             if(admin.length === 0){
                 filter.email = email;
             }
-            ordersCollection.insertOne(filter)
-            .then(result => {
-                res.send(result.insertedCount > 0)
+            ordersCollection.find(filter)
+            .toArray((err, result) => {
+                res.send(result)
             })
         })
     })
