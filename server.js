@@ -116,15 +116,26 @@ client.connect(err => {
             }
             return res.send({name: file.name, path: `${file.name}`})
         })
-
+        adminCollection.insertOne({ name, email, file})
+        .then(result => {
+            res.send(result.insertedCount > 0);
+        })
     })
 
-    // app.get('/admins', (req, res) => {
-    //     AdminCollection.find()
-    //     .toArray((err, items) => {
-    //         res.send(items)
-    //     })
-    // })
+    app.get('/admins', (req, res) => {
+        AdminCollection.find({})
+        .toArray((err, items) => {
+            res.send(items)
+        })
+    })
+
+    app.post('/isDoctor', (req, res) => {
+        const email = req.body.email;
+        adminCollection.find({ email: email })
+            .toArray((err, admin) => {
+                res.send(admin.length > 0);
+            })
+    })
 
 
 });
