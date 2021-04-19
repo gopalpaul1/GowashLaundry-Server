@@ -25,7 +25,7 @@ client.connect(err => {
     const servicesCollection = client.db("gowashlaundry").collection("services");
     const reviewCollection = client.db("gowashlaundry").collection("review");
     const ordersCollection = client.db("gowashlaundry").collection("orders");
-    const AdminCollection = client.db("gowashlaundry").collection("Admin");
+    const adminCollection = client.db("gowashlaundry").collection("Admin");
 
     app.post('/addService', (req, res) => {
         const service = req.body
@@ -77,17 +77,20 @@ client.connect(err => {
 
     app.post('/addOrder', (req, res) => {
         const orders = req.body
-        // const email = req.body.email
-        // AdminCollection.find({email: email})
-        // .toArray((err, admin) =>{
-        //     const filter = {}
-        //     if(admin.length === 0){
-        //         filter.email = email;
-        //     }
-            ordersCollection.insertOne(orders)
+        const email = req.body.email
+        adminCollection.find({email: email})
+        .toArray((err, items) => {
+            const filter = {orders: orders}
+            if(items.length ){
+                filter.email = email
+            }
+            ordersCollection.insertOne(filter)
             .then(result => {
                 res.send(result.insertedCount > 0)
             })
+
+        })
+
     })
 
     app.get('/orders', (req, res) => {
@@ -99,19 +102,19 @@ client.connect(err => {
 
 
     app.post('/addAdmin', (req, res) => {
-        const admin = req.body
-        AdminCollection.insertOne(admin)
+        const admin = req.body.email
+        adminCollection.insertOne(admin)
             .then(result => {
                 res.send(result.insertedCount > 0)
             })
     })
 
-    app.get('/admins', (req, res) => {
-        AdminCollection.find()
-        .toArray((err, items) => {
-            res.send(items)
-        })
-    })
+    // app.get('/admins', (req, res) => {
+    //     AdminCollection.find()
+    //     .toArray((err, items) => {
+    //         res.send(items)
+    //     })
+    // })
 
 
 });
