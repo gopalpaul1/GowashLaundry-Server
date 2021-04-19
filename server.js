@@ -87,9 +87,9 @@ client.connect(err => {
             if(items.length ){
                 filter.email = email
             }
-            ordersCollection.find(filter)
+            ordersCollection.insertOne(filter)
             .toArray((err, items) => {
-                res.send(items.length > 0)
+                res.send(items.insertedCount > 0)
             })
 
         })
