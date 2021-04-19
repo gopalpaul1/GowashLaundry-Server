@@ -84,9 +84,9 @@ client.connect(err => {
             if(admin.length === 0){
                 filter.email = email;
             }
-            ordersCollection.find(filter)
-            .toArray((err, items) => {
-                res.send(items)
+            ordersCollection.insertOne(orders, filter)
+            .then(result => {
+                res.send(result.insertedCount > 0)
             })
         })
     })
