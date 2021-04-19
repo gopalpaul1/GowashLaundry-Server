@@ -77,18 +77,17 @@ client.connect(err => {
 
     app.post('/addOrder', (req, res) => {
         const orders = req.body
-        const email = req.body.email
-        AdminCollection.find({email: email})
-        .toArray((err, admin) =>{
-            const filter = {}
-            if(admin.length === 0){
-                filter.email = email;
-            }
-            ordersCollection.insertOne(orders, filter)
+        // const email = req.body.email
+        // AdminCollection.find({email: email})
+        // .toArray((err, admin) =>{
+        //     const filter = {}
+        //     if(admin.length === 0){
+        //         filter.email = email;
+        //     }
+            ordersCollection.insertOne(orders)
             .then(result => {
                 res.send(result.insertedCount > 0)
             })
-        })
     })
 
     app.get('/orders', (req, res) => {
