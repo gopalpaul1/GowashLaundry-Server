@@ -85,8 +85,8 @@ client.connect(err => {
                 filter.email = email;
             }
             ordersCollection.find(filter)
-            .toArray((err, result) => {
-                res.send(result)
+            .toArray((err, items) => {
+                res.send(items)
             })
         })
     })
