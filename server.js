@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const bodyParser = require('body-parser')
+const fileUpload = require('express-fileupload');
 const MongoClient = require('mongodb').MongoClient;
 const ObjectId = require('mongodb').ObjectId;
 require('dotenv').config()
@@ -9,7 +10,9 @@ require('dotenv').config()
 const port = 5055
 
 app.use(cors());
-app.use(bodyParser.json())
+app.use(bodyParser.json());
+app.use(express.static('admins'));
+app.use(fileUpload());
 
 app.get('/', (req, res) => {
     res.send('Hello World!')
@@ -102,11 +105,18 @@ client.connect(err => {
 
 
     app.post('/addAdmin', (req, res) => {
+        const file = req.files.file;
+        const name = req.body.name
         const email = req.body.email
-        adminCollection.insertOne(email)
-            .then(result => {
-                res.send(result.insertedCount > 0)
-            })
+        console.log(name, email, file)
+        file.mv(`${__dircname}/admins/${file.name}`, err => {
+            if(err){
+                console.log(err)
+                return res.status(500).send({msg: 'failed'})
+            }
+            return res.send({name: file.name, path: `${file.name}`})
+        })
+
     })
 
     // app.get('/admins', (req, res) => {
