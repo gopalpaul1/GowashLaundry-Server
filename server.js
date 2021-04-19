@@ -102,8 +102,8 @@ client.connect(err => {
 
 
     app.post('/addAdmin', (req, res) => {
-        const admin = req.body.email
-        adminCollection.insertOne(admin)
+        const email = req.body.email
+        adminCollection.insertOne(email)
             .then(result => {
                 res.send(result.insertedCount > 0)
             })
