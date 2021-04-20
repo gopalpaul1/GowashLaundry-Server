@@ -93,6 +93,21 @@ client.connect(err => {
             })
     })
 
+    app.get('/orders', (req, res) => {
+        ordersCollection.find()
+            .toArray((err, items) => {
+                res.send(items)
+            })
+    })
+
+    app.patch('/update/:id', (req, res) => {
+        const status = req.body.value
+        ordersCollection.updateOne({_id: ObjectId(req.params.id)},{$set:{status: status}})
+        .then(result =>{
+            res.send(result.modifiedCount > 0)
+        })
+    })
+
 
     app.post('/addAdmin', (req, res) => {
         const file = req.files.file;
