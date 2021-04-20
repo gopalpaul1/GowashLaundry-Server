@@ -93,12 +93,6 @@ client.connect(err => {
             })
     })
 
-    // app.get('/orders', (req, res) => {
-    //     ordersCollection.find()
-    //         .toArray((err, items) => {
-    //             res.send(items)
-    //         })
-    // })
 
     // app.patch('/update/:id', (req, res) => {
     //     ordersCollection.updateOne({_id: ObjectId(req.params.id)},{$set:{status: req.body.value}})
