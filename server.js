@@ -94,12 +94,12 @@ client.connect(err => {
     })
 
 
-    // app.patch('/update/:id', (req, res) => {
-    //     ordersCollection.updateOne({_id: ObjectId(req.params.id)},{$set:{status: req.body.value}})
-    //     .then(result =>{
-    //         res.send(result.modifiedCount > 0)
-    //     })
-    // })
+    app.patch('/update/:id', (req, res) => {
+        ordersCollection.updateOne({_id: req.params.id},{$set:{status: req.body.value}})
+        .then(result =>{
+            res.send(result.modifiedCount > 0)
+        })
+    })
 
 
     app.post('/addAdmin', (req, res) => {
